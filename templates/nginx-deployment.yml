@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.namessuffix.deployment }}
+  namespace: default
+  labels:
+    app:  nginx-customized
+spec:
+  selector:
+    matchLabels:
+      app: nginx-customized
+  replicas: "{{ .Values.replicaCount }}:{{ .Values.image.tag }}"
+  template:
+    metadata:
+      labels:
+        app:  nginx-customized
+    spec:
+      restartPolicy: Always
+      containers:
+      - name:  nginx-customized
+        image:  {{ .Values.image.repository }}
+        args:
+          - "-text=apple"
+          - "-listen=:80"
+        ports:
+          - containerPort:  80
+

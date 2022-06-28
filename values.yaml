@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: hashicorp/http-echo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""
@@ -37,8 +37,9 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
+  nodePort: 30000
 
 ingress:
   enabled: false
@@ -75,8 +76,17 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+deploymentSuffix:
+  backend: mongo
+  frontend: mongo-express 
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+
+namessuffix:
+  deployment: nginx-deployment
+  service: nginx-service
+  pods: nginx-pod 
