@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: nginx-customized
-  replicas: "{{ .Values.replicaCount }}:{{ .Values.image.tag }}"
+  replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
@@ -18,7 +18,7 @@ spec:
       restartPolicy: Always
       containers:
       - name:  nginx-customized
-        image:  {{ .Values.image.repository }}
+        image:  "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args:
           - "-text=apple"
           - "-listen=:80"
